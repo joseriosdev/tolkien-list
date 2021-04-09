@@ -1,5 +1,61 @@
 // FILE CREATED AS A NOTEBOOK FOR OOP IN JS / EXERCIES HERE
 
+//ES6 Classes works equaly than protos under the hood, here's a syntax example
+class Person {
+  constructor(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+  // method that can be use with the obj created
+  greeting() {
+    console.log(`Hello ${this.firstName} ${this.lastName}!`);
+  }
+  // static method can only be used with the class itself
+  static multiplicator(a,b) {
+    return a*b;
+  }
+}
+let clara = new Person("Clara", "Guzman");
+
+//Finally we can do the same inherit thing but is called now EXTENDS, just like this:
+class Customer extends Person {
+  constructor(firstName, lastName, membership) {
+    //since we're extending it, we should use the super() and fetch those vars here
+    super(firstName, lastName);
+    this.membership = membership;
+  }
+}
+var esperancita = new Customer("Esperanza", "Suarez", "gold");
+/*
+Prototypes can inherit from other prototypes, things like vars and methods. EX:
+*/
+//Dragon constructor
+function Dragon(fName, lName, nickName) {
+  this.fName = fName;
+  this.lName = lName;
+  this.nickName = nickName;
+}
+
+Dragon.prototype.greeting = function() {
+  console.log(`Hi there ${this.fName} ${this.lName}`);
+}
+
+//Dragon customer constructor
+function DragonCustomer(fName, lName, nickName, phone, membership) {
+  Dragon.call(this, fName, lName, nickName);
+  //obj.call() -> allows us to call any function or var from any contex to the current one
+  this.phone = phone;
+  this.membership = membership;
+}
+
+DragonCustomer.prototype = Object.create(Dragon.prototype);
+//by doing the prev line of code DragonCustomer is now inheriting from Dragon
+//that's nice but it's returning the proto of Dragon and not DragonCustomer as it should
+//that's why we write:
+DragonCustomer.prototype.constructor = DragonCustomer;
+
+const redDragon = new Dragon("Jake", "Long", "East Dragon");
+const blackDragonConstumer = new DragonCustomer("Toothless", "Chimuelo", "Night Fury", "1234", "vip");
 
 /*
 Everything in JS it's a prototype
@@ -47,4 +103,4 @@ function Persona(firstName, lastName, dob) {
   }
 }
 
-let jose = new Persona("Jose", "Rios", "03/10/1997");
+let jose = new Persona("Jose", "Rios", "04/11/1937");
